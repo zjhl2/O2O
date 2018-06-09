@@ -1,0 +1,339 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="创新实践服务外包O2O资源回收平台">
+        <meta name="author" content="zy">
+        <link rel="icon" href="./images/icon.ico">
+    
+        <title>我的订单</title>
+    
+        <!--         CSS          -->
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/font-awesome.min.css">
+        <link rel="stylesheet" href="./css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="./css/skins/square/blue.css">
+        <link rel="stylesheet" href="./css/buttons.css">
+        <!--         JS           -->
+        <script src="./js/jquery-3.3.1.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/bootstrap-datetimepicker.min.js"></script>
+        <script src="./js/icheck.min.js"></script>
+        <script src="./js/buttons.js"></script>
+    </head>
+
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img src="./images/icon.ico" class="my-bar-icon">
+                    <a href="#" class="navbar-brand" style="color: #eee;">我的订单</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">主页</a></li>
+                        <li><a href="sell.html">我要出售</a></li>
+                        <li><a href="recover.html">我要回收</a></li>
+                        <li class="active">
+                            <a href="orders.html">我的订单</a>
+                        </li>
+                        <li><a href="wallet.html">我的钱包</a></li>
+                        <li><a href="personal-center.html">个人中心</a></li>
+                        <li><a href="about.html">关于</a></li>
+                        <li><a href="login.html">登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="wrapper">
+            <div class="container">
+                <!-- bottom nav -->
+                <ul id="orders" class="nav nav-pills navbar-inverse navbar-fixed-bottom order-nav">
+                    <li class="active order-nav-pill">
+                        <a href="#all-order" data-toggle="tab">
+                            全部订单
+                        </a>
+                    </li>
+                    <li class="order-nav-pill"><a href="#finished-order" data-toggle="tab">已完成订单</a></li>
+                    <li class="order-nav-pill"><a href="#unfinished-order" data-toggle="tab">未完成订单</a></li>
+                </ul>
+
+                <div id="ordersContent" class="tab-content">
+                    <!-- all-orders -->
+                    <div class="tab-pane fade in active all-od" id="all-order">
+                        <h2>全部订单</h2>
+                        <div class="container">
+                                <div class="row">
+                                    <div class="order-item">
+                                        <div class="container">
+                                            <div class="row pd">
+                                                <div class="col-xs-6">
+                                                    <p>订单号：xxxxxxxxxxxx</p>
+                                                </div>
+                                                <div class="col-xs-3 col-xs-offset-3">
+                                                    <p style="color: tomato;">交易成功</p>
+                                                </div>
+                                            </div>
+                                            <div class="row pd">
+                                                <div class="col-xs-3">
+                                                    <img src="images/dc.jpg" class="order-item-img">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <p>回收物：废旧电池</p>
+                                                    <div class="row od-deteils">
+                                                        <p>Deteils:废旧电池两对。</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <h4>
+                                                        <span class="fa fa-cny"></span>
+                                                        2.00
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="images/yf.jpg" class="order-item-img">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <p>回收物：废旧衣物</p>
+                                                    <div class="row od-deteils">
+                                                        <p>Deteils:废旧T恤一件，5分裤一条。</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <h4>
+                                                        <span class="fa fa-cny"></span>
+                                                        20.00
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row pd">
+                                                <div class="col-xs-6">
+                                                    <p>2018-5-15 22:33:44</p>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                        <h4 class="pull-right">
+                                                            合计：
+                                                            <span class="fa fa-cny"></span>
+                                                            22.00
+                                                        </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="order-item">
+                                            <div class="container">
+                                                <div class="row pd">
+                                                    <div class="col-xs-6">
+                                                        <p>订单号：xxxxxxxxxxxx</p>
+                                                    </div>
+                                                    <div class="col-xs-3 col-xs-offset-3">
+                                                        <p style="color: tomato;">交易成功</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row pd">
+                                                    <div class="col-xs-3">
+                                                        <img src="images/cj.jpg" class="order-item-img">
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <p>回收物：废旧家具</p>
+                                                        <div class="row od-deteils">
+                                                            <p>Deteils:废旧茶几，沙发一套</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <h4>
+                                                            <span class="fa fa-cny"></span>
+                                                            200.00
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <img src="images/ds.jpg" class="order-item-img">
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <p>回收物：废旧家电</p>
+                                                        <div class="row od-deteils">
+                                                            <p>Deteils:废旧电视一台，冰箱一台</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <h4>
+                                                            <span class="fa fa-cny"></span>
+                                                            500.00
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row pd">
+                                                    <div class="col-xs-6">
+                                                        <p>2018-5-16 11:55:33</p>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                            <h4 class="pull-right">
+                                                                合计：
+                                                                <span class="fa fa-cny"></span>
+                                                                700.00
+                                                            </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- finished -->
+                    <div class="tab-pane fade finished-od" id="finished-order">
+                        <h2>已完成订单</h2>
+                        <div class="container">
+                            <div class="row">
+                                <div class="order-item">
+                                    <div class="container">
+                                        <div class="row pd">
+                                            <div class="col-xs-6">
+                                                <p>订单号：xxxxxxxxxxxx</p>
+                                            </div>
+                                            <div class="col-xs-3 col-xs-offset-3">
+                                                <p style="color: tomato;">交易成功</p>
+                                            </div>
+                                        </div>
+                                        <div class="row pd">
+                                            <div class="col-xs-3">
+                                                <img src="images/dc.jpg" class="order-item-img">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <p>回收物：废旧电池</p>
+                                                <div class="row od-deteils">
+                                                    <p>Deteils:废旧电池两对。</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <h4>
+                                                    <span class="fa fa-cny"></span>
+                                                    2.00
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="images/yf.jpg" class="order-item-img">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <p>回收物：废旧衣物</p>
+                                                <div class="row od-deteils">
+                                                    <p>Deteils:废旧T恤一件，5分裤一条。</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <h4>
+                                                    <span class="fa fa-cny"></span>
+                                                    20.00
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row pd">
+                                            <div class="col-xs-6">
+                                                <p>2018-5-15 22:33:44</p>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                    <h4 class="pull-right">
+                                                        合计：
+                                                        <span class="fa fa-cny"></span>
+                                                        22.00
+                                                    </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-item">
+                                        <div class="container">
+                                            <div class="row pd">
+                                                <div class="col-xs-6">
+                                                    <p>订单号：xxxxxxxxxxxx</p>
+                                                </div>
+                                                <div class="col-xs-3 col-xs-offset-3">
+                                                    <p style="color: tomato;">交易成功</p>
+                                                </div>
+                                            </div>
+                                            <div class="row pd">
+                                                <div class="col-xs-3">
+                                                    <img src="images/cj.jpg" class="order-item-img">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <p>回收物：废旧家具</p>
+                                                    <div class="row od-deteils">
+                                                        <p>Deteils:废旧茶几，沙发一套</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <h4>
+                                                        <span class="fa fa-cny"></span>
+                                                        200.00
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="images/ds.jpg" class="order-item-img">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <p>回收物：废旧家电</p>
+                                                    <div class="row od-deteils">
+                                                        <p>Deteils:废旧电视一台，冰箱一台</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <h4>
+                                                        <span class="fa fa-cny"></span>
+                                                        500.00
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row pd">
+                                                <div class="col-xs-6">
+                                                    <p>2018-5-16 11:55:33</p>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                        <h4 class="pull-right">
+                                                            合计：
+                                                            <span class="fa fa-cny"></span>
+                                                            700.00
+                                                        </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- unfinished -->
+                    <div class="tab-pane fade unfinished-od" id="unfinished-order">
+                        <h2>未完成订单</h2>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <img src="images/icon.ico" class="center-block">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <p>您还没有未完成的订单</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
