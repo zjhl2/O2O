@@ -389,3 +389,33 @@
     color: #eee;
     text-align: center;
 }
+.pd-re{
+    padding-top: 15%;
+}
+.title-re{
+    color: #eee;
+    text-align: center;
+}
+.re-item{
+    width: 100%;
+    height: auto;
+    border: 1px solid #eee;
+    border-radius:10px;
+}
+.re-time{
+    color: #eee;
+}
+.re-wait{
+    color: #e25252;
+}
+.re-infor{
+    color: #eee;
+}
+.re-detail{
+    text-align: center;
+    color: antiquewhite;
+}
+.re-item-pd{
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
