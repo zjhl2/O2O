@@ -1,12 +1,10 @@
 'use strict';
 
 
-const Koa = require('koa');
+const app = require('koa')();
 
 // 注意require('koa-router')返回的是函数:
 const router = require('koa-router')();
-
-const app = new Koa();
 
 const  serve = require("koa-static");
 app.use(serve('./static'));
@@ -16,6 +14,7 @@ app.use(async (ctx, next) => {
     console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     await next();
 });
+
 
 
 // add router middleware:
