@@ -18,9 +18,15 @@ app.use(async (ctx, next) => {
 // add router middleware:
 app.use(router.routes());
 
-router.get("/login", async (ctx, next) => {
-    ctx.body = "hello";
-    await next();
+router.get("/getusers", async (ctx, next) => {
+    console.log(ctx);
+    var arr=new Array();
+    arr.push({name:"zy",type:"stu"});
+    arr.push({name:"zjh",type:"stu"});
+    console.log(arr.length);
+    console.log(arr[0]);
+    console.log(arr[1]);
+    ctx.body=arr;
 })
 
 app.listen(3000);
