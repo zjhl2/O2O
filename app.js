@@ -6,6 +6,7 @@ const router = require('koa-router')();
 const session = require('koa-session');
 const  serve = require("koa-static");
 const bodyParser = require('koa-bodyparser');
+var DB = require('./mysql.js');
 
 const app = new koa;
 
@@ -17,14 +18,7 @@ app.use(async (ctx, next) => {
     console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     await next();
 });
-/*
-app.use(ctx => {
-    if (ctx.path === '/favicon.ico') return;
-    let n = ctx.session.views || 0;
-    ctx.session.views = ++n;
-    ctx.body = n + ' views';
-});
-*/
+
 app.use(async (ctx, next) => {
     if (ctx.request.path === '/sell.html' ||
         ctx.request.path === '/recover.html' ||
@@ -34,6 +28,18 @@ app.use(async (ctx, next) => {
         ctx.request.path === '/personal-center.html') {
         if (ctx.session.id) await next();
         else ctx.redirect('/login.html');
+    }
+    else await next();
+});
+
+app.use(async (ctx, next) => {
+    if (ctx.request.path === '/login.html'){
+        if (!ctx.session.id) await next();
+        else {
+            var name = ctx.session.id;
+            ctx.response.body = `<h1>Welcome, ${name}!</h1>
+            <p><a href="/index.html">Go to home.</a></p>`;
+        }
     }
     else await next();
 });
@@ -53,29 +59,33 @@ router.get("/getusers", async (ctx, next) => {
     console.log(arr[1]);
     ctx.body=arr;
 })
-router.get('/test', async (ctx, next) => {
-    ctx.response.body = `<h1>Index</h1>
-        <form action="/signin" method="post">
-            <div>
-            <p>Name: <input name="name" value="koa"></p>
-            <p>Password: <input name="password" type="password"></p>
-            <p><input type="submit" value="Submit"></p>
-            </div>
-        </form>`;
-});
+
 //post
-router.post('/signin', async (ctx, next) => {
+router.post('/signin', async (ctx) => {
     var
         name = ctx.request.body.Id || '',
         password = ctx.request.body.Password || '';
     console.log(`signin with name: ${name}, password: ${password}`);
-    if (name === 'koa' && password === '12345') {
-        ctx.response.body = `<h1>Welcome, ${name}!</h1>`;
-    } else {
-        ctx.response.body = `<h1>Login failed!</h1>
-        <p><a href="/">Try again</a></p>`;
+    var res = await DB.findDataByUser(name);
+    if (!res) {
+        ctx.response.body = `<h1>Login failed! No such user!</h1>
+        <p><a href="/login.html">Try again</a></p>`;
+    }
+    else if (res[0].password === password) {
+        ctx.session.id = name;
+        ctx.response.body = `<h1>Welcome, ${name}!</h1>
+        <p><a href="/index.html">Go to home.</a></p>`;
+        console.log(`${name} signin success`);
+    } 
+    else {
+        ctx.response.body = `<h1>Login failed! Wrong password!</h1>
+        <p><a href="/login.html">Try again</a></p>`;
     }
 });
 
+router.get('/signout',async (ctx) => {
+    ctx.session = null;
+    ctx.redirect('/login.html');
+})
 app.listen(3000);
 console.log('app started at port 3000...');
