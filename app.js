@@ -40,7 +40,8 @@ router.post('/signin', async (ctx) => {
         name = ctx.request.body.Id || '',
         password = ctx.request.body.Password || '';
     console.log(`signin with name: ${name}, password: ${password}`);
-    var res = await DB.findDataByUser(name);
+    //var res = await DB.findDataByUser(name);
+    var res = [{name:"zjhl2",password:"zjhl2"}];
     if (name==="zjhl2"&&password==="zjhl2") {
         res[0].name=name;
         res[0].password=password;
@@ -81,6 +82,18 @@ router.post('/register',async (ctx) => {
 router.get('/signout',async (ctx) => {
     ctx.session = null;
     ctx.redirect('/login.html');
+})
+
+router.post('/submitorder', async (ctx, next) => {
+    var 
+        date=ctx.body["Date"];  //预约时间
+        address=ctx.body["Address"]; //取货地址
+        type=ctx.body["Type"]; //回收类型
+        remark=ctx.body["Remark"];  //备注
+    if (date && address && type) 
+        ctx.body.code=1;
+    else 
+        ctx.body.code=0;
 })
 
 
