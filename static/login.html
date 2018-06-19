@@ -74,9 +74,8 @@
                                     function check(){
                                         //alert(1);
                                         var name=$("#Id").val(),password=$('#Password').val();
-                                        alert(name);
-                                        $.post('/pp',{name:name,password:password},function(data){
-                                            if (data.code===1) alert("login successd!");
+                                        $.post('/signin',{name:name,password:password},function(data){
+                                            if (data.code===1) window.location.href="loginSuccess.html";
                                             else alert("login failed!");
                                         })
                                     }    

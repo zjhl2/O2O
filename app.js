@@ -30,37 +30,17 @@ router.get("/getusers", async (ctx) => {
 
 
 //post
-router.post('/pp', async (ctx) => {
+router.post('/signin', async (ctx) => {
     var name=ctx.request.body.name;
     var password=ctx.request.body.password;
     console.log(name+ ' '+password);
-    ctx.body={code:1};
+    if (name==="zjhl2"&&password==="zjhl2")
+    {
+        ctx.session.id=name;
+        ctx.body={code:1};
+    }
+    else ctx.body={code:0};
 })
-
-router.post('/signin', async (ctx) => {
-    var
-        name = ctx.request.body.Id || '',
-        password = ctx.request.body.Password || '';
-    console.log(`signin with name: ${name}, password: ${password}`);
-    //var res = await DB.findDataByUser(name);
-    var res = [{name:"zjhl2",password:"zjhl2"}];
-    if (name==="zjhl2"&&password==="zjhl2") {
-        res[0].name=name;
-        res[0].password=password;
-    }
-    if (res.length==0) {
-        ctx.redirect('/loginFailed.html');
-        console.log(`${name} signin fail`);
-    }
-    else if (res[0].password === password) {
-        ctx.session.id = name;
-        ctx.redirect('/loginSuccess.html');
-        console.log(`${name} signin success`);
-    } else {
-        ctx.response.body = `<h1>Login failed! Wrong password!</h1>
-        <p><a href="/login.html">Try again</a></p>`;
-    }
-});
 
 router.post('/register',async (ctx) => {
     var
