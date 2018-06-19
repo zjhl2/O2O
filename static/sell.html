@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                         <div class="input-append date form_datetime">
-                            <input size="39" type="text" value="" readonly>
+                            <input size="39" type="text" id="date" readonly>
                             <span class="add-on"><i class="icon-th"></i></span>
                         </div>
                     </div>
@@ -93,13 +93,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <form>
-                            <select class="form-control">
-                                <option>浙江省 杭州电子科技大学 生活区 12楼</option>
-                                <option>浙江省 杭州电子科技大学 生活区 1楼</option>
-                                <option>浙江省 杭州电子科技大学 生活区 2楼</option>
-                            </select>
-                        </form>
+                        <select class="form-control" id="address-select">
+                            <option>浙江省 杭州电子科技大学 生活区 12楼</option>
+                            <option>浙江省 杭州电子科技大学 生活区 1楼</option>
+                            <option>浙江省 杭州电子科技大学 生活区 2楼</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row pd">
@@ -120,7 +118,7 @@
                             <div class="col-xs-5">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type1" value="废旧金属" name="test">
                                         废旧金属
                                     </label>
                                 </div>
@@ -128,7 +126,7 @@
                             <div class="col-xs-5 col-xs-offset-1">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type2" value="废纸" name="test">
                                         废纸
                                     </label>
                                 </div>
@@ -140,7 +138,7 @@
                             <div class="col-xs-5">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type3" value="电子废品" name="test">
                                         电子废品
                                     </label>
                                 </div>
@@ -148,7 +146,7 @@
                             <div class="col-xs-5 col-xs-offset-1">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type4" value="废旧家具" name="test">
                                         废旧家具
                                     </label>
                                 </div>
@@ -160,7 +158,7 @@
                             <div class="col-xs-5">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type5" value="废旧塑料" name="test">
                                         废旧塑料
                                     </label>
                                 </div>
@@ -168,7 +166,7 @@
                             <div class="col-xs-5 col-xs-offset-1">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="iCheck">
+                                        <input type="checkbox" id="type6" value="废旧衣物" name="test">
                                         废旧衣物
                                     </label>
                                 </div>
@@ -180,7 +178,7 @@
                                 <div class="col-xs-5">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="iCheck">
+                                            <input type="checkbox" id="type7" value="大型电器" name="test">
                                             大型电器
                                         </label>
                                     </div>
@@ -188,7 +186,7 @@
                                 <div class="col-xs-5 col-xs-offset-1">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="iCheck">
+                                            <input type="checkbox" id="type8" value="其他" name="test">
                                             其他
                                         </label>
                                     </div>
@@ -210,20 +208,43 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <textarea class="form-control" rows="5" placeholder="请按照回收物品信息填写备注信息，如：&#10废纸：废书两本；&#10电子废品：废旧电池两对；"></textarea>
+                        <textarea class="form-control" rows="5" id="remark" placeholder="请按照回收物品信息填写备注信息，如：&#10废纸：废书两本；&#10电子废品：废旧电池两对；"></textarea>
                     </div>
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" id="orderSubmitFailedAlert" hidden="hidden">
+                    <p><strong>订单提交失败:<span id="errorInfor"></span></strong></p>
                 </div>
                 <div class="row pd pd-btm">
                     <div class="col-xs-12">
-                        <button type="button" class="button button-glow button-border button-rounded" style="width: 100%">
+                        <button onclick="orderSubmit()" type="button" class="button button-glow button-border button-rounded" style="width: 100%">
                             提交
                         </button>
                     </div>
+                    <script>
+                        function orderSubmit(){
+                            obj = document.getElementsByName("test");
+                            check_val = [];
+                            for(k in obj){
+                            if(obj[k].checked)
+                                check_val.push(obj[k].value);
+                            }    
+                            var date=$("#date").val(), address=$("#address-select").val(), type=check_val, remark=$('#remark').val();
+                            //alert(remark);
+                            $.post('/submitorder',{date:date,address:address,type:type,remark:remark},function(data){
+                                if (data.code===1) window.location.href="orderSubmitSuccess.html";
+                                else orderSubmitFailedAlert();
+                            })
+                        }
+                        function orderSubmitFailedAlert(){
+                            $('#orderSubmitFailedAlert').removeAttr("hidden");
+                            document.getElementById("errorInfor").innerHTML=data.err;
+                        }
+                    </script>
                 </div>
             </div>
         </div>
     </body>   
-    <script type="text/javascript">
+    <script>
         $(".form_datetime").datetimepicker({
             format: "yyyy MM dd - hh:ii",
             autoclose: true,
@@ -238,6 +259,7 @@
             checkboxClass : 'icheckbox_square-blue', 
             radioClass : 'iradio_square-blue', 
             increaseArea : '20%' 
-        }); 
+        });
     </script>
+
 </html>
