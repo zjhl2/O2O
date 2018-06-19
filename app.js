@@ -6,7 +6,8 @@ const router = require('koa-router')();
 const session = require('koa-session');
 const  serve = require("koa-static");
 const bodyParser = require('koa-bodyparser');
-var DB = require('./mysql.js');
+const DB = require('./lib/mysql');
+const midw = require('./middleware/middleware.js');
 
 const app = new koa;
 
@@ -14,60 +15,33 @@ app.keys = ['keys'];
 app.use(session(app));
 app.use(bodyParser());
 
-app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-    await next();
-});
+app.use(midw.checklogin);
 
-app.use(async (ctx, next) => {
-    if (ctx.request.path === '/sell.html' ||
-        ctx.request.path === '/recover.html' ||
-        ctx.request.path === '/orders.html' ||
-        ctx.request.path === '/orders.html' ||
-        ctx.request.path === '/wallet.html' ||
-        ctx.request.path === '/personal-center.html') {
-        if (ctx.session.id) await next();
-        else ctx.redirect('/login.html');
-    }
-    else await next();
-});
-
-app.use(async (ctx, next) => {
-    if (ctx.request.path === '/login.html'){
-        if (!ctx.session.id) await next();
-        else {
-            var name = ctx.session.id;
-            ctx.response.body = `<h1>Welcome, ${name}!</h1>
-            <p><a href="/index.html">Go to home.</a></p>`;
-        }
-    }
-    else await next();
-});
+app.use(midw.welcome);
 
 app.use(serve('./static'));
 
 app.use(router.routes());
 
 //get
-router.get("/getusers", async (ctx, next) => {
-    console.log(ctx);
-    var arr=new Array();
-    arr.push({name:"zy",type:"stu"});
-    arr.push({name:"zjh",type:"stu"});
-    console.log(arr.length);
-    console.log(arr[0]);
-    console.log(arr[1]);
-    ctx.body=arr;
+router.get("/getusers", async (ctx) => {
+    ctx.body={name:"zy",type:"stu"};
 })
 
+
 //post
+router.post('/pp', async (ctx) => {
+    console.log(ctx.request.body.name);
+    ctx.body="ok";
+})
+
 router.post('/signin', async (ctx) => {
     var
         name = ctx.request.body.Id || '',
         password = ctx.request.body.Password || '';
     console.log(`signin with name: ${name}, password: ${password}`);
     var res = await DB.findDataByUser(name);
-    if (!res) {
+    if (res.length==0) {
         ctx.response.body = `<h1>Login failed! No such user!</h1>
         <p><a href="/login.html">Try again</a></p>`;
     }
@@ -76,16 +50,35 @@ router.post('/signin', async (ctx) => {
         ctx.response.body = `<h1>Welcome, ${name}!</h1>
         <p><a href="/index.html">Go to home.</a></p>`;
         console.log(`${name} signin success`);
-    } 
-    else {
+    } else {
         ctx.response.body = `<h1>Login failed! Wrong password!</h1>
         <p><a href="/login.html">Try again</a></p>`;
     }
 });
 
+router.post('/register',async (ctx) => {
+    var
+        name = ctx.request.body.Id || '',
+        email = ctx.request.body["E-mail"] || '',
+        tel = ctx.request.body["Phone-Number"] || '',
+        password = ctx.request.body.Password || '';
+    var res = await DB.findDataByUser(name);
+    if (res.length!=0) {
+        ctx.response.body = `<h1>Register failed! Id exists!</h1>
+        <p><a href="/register.html">Try again</a></p>`;
+    } else {
+        await DB.insertData([name,password,email,tel]);
+        console.log(`user ${name} registerd!`);
+        ctx.response.body = `<h1>Register successd! </h1>
+        <p><a href="/login.html">Go to login! </a></p>`;
+    }
+})
+
 router.get('/signout',async (ctx) => {
     ctx.session = null;
     ctx.redirect('/login.html');
 })
+
+
 app.listen(3000);
 console.log('app started at port 3000...');
