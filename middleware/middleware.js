@@ -17,9 +17,7 @@ module.exports = {
         if (ctx.request.path === '/login.html'){
             if (!ctx.session.id) await next();
             else {
-                var name = ctx.session.id;
-                ctx.response.body = `<h1>Welcome, ${name}!</h1>
-                <p><a href="/index.html">Go to home.</a></p>`;
+                ctx.redirect('/loginSuccess.html');
             }
         }
         else await next();

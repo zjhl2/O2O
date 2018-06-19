@@ -31,8 +31,9 @@ router.get("/getusers", async (ctx) => {
 
 //post
 router.post('/pp', async (ctx) => {
+    var tmp=ctx.request.body.name;
     console.log(ctx.request.body.name);
-    ctx.body="ok";
+    ctx.body=`${tmp} ok`;
 })
 
 router.post('/signin', async (ctx) => {
@@ -47,13 +48,12 @@ router.post('/signin', async (ctx) => {
         res[0].password=password;
     }
     if (res.length==0) {
-        ctx.response.body = `<h1>Login failed! No such user!</h1>
-        <p><a href="/login.html">Try again</a></p>`;
+        ctx.redirect('/loginFailed.html');
+        console.log(`${name} signin fail`);
     }
     else if (res[0].password === password) {
         ctx.session.id = name;
-        ctx.response.body = `<h1>Welcome, ${name}!</h1>
-        <p><a href="/index.html">Go to home.</a></p>`;
+        ctx.redirect('/loginSuccess.html');
         console.log(`${name} signin success`);
     } else {
         ctx.response.body = `<h1>Login failed! Wrong password!</h1>
