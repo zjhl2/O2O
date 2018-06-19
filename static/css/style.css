@@ -424,3 +424,7 @@
     color: #e25252;
     font-size: 24px;
 }
+.modify-error{
+    color: red;
+    text-align: center;
+}

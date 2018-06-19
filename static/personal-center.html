@@ -59,8 +59,14 @@
                     <div class="tx-box">
                         <img src="./images/tx.jpg" class="img-circle img-tx">
                     </div>
-                    <p class="name">Name:Parzival</p>
+                    <p class="name">Name:<span id="name"></span></p>
                 </div>
+                <script>
+                    $.get('/getname',function(data){
+                        document.getElementById('name').innerHTML=data.name;
+                        document.getElementById('name1').innerHTML=data.name;
+                    });
+                </script>
                 <hr class="pc-hr">
                 <!-- information -->
                 <div class="row infor">
@@ -68,7 +74,7 @@
                         <p>昵称</p>
                     </div>
                     <div class="col-xs-4">
-                        <p>Parzival</p>
+                        <p id="name1">Parzival</p>
                     </div>
                     <div class="col-xs-3">
                         <!-- Button trigger modal -->
@@ -91,14 +97,32 @@
                                     <div class="modal-body">
                                         <div class="input-group">
                                             <span class="input-group-addon">新昵称</span>
-                                            <input type="text" class="form-control" placeholder="Username">
+                                            <input type="text" class="form-control" placeholder="Username" id="newName">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" class="btn btn-primary">提交</button>
-                                        </button>                          
-                                    </div>
+                                        <button onclick="newNameSubmit()" class="btn btn-primary">提交</button>
+                                        <script>
+                                            function newNameSubmit(){
+                                                var newname=$('#newName').val();
+                                                $.post('/modifyname',{newname:newname},function(data){
+                                                if (data.code===1) modifyNameSuccess(newname);
+                                                else modifyNameFailed();
+                                                })
+                                            }
+                                            function modifyNameSuccess(newname){
+                                                $('#Name').modal('hide');
+                                                document.getElementById('name').innerHTML=newname;
+                                                document.getElementById('name1').innerHTML=newname;
+                                            }
+                                            function modifyNameFailed(){
+                                                $('#nameErrorAlert').removeAttr("hidden");
+                                                document.getElementById("modifyNameError").innerHTML=data.err;
+                                            }
+                                        </script>                  
+                                    </div>                                        
+                                    <h5 class="modify-error" id="nameErrorAlert" hidden="hidden"><strong>修改失败:<span id="modifyNameError"></span></strong></h5>
                                 </div> 
                             </div>
                         </div>
