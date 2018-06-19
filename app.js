@@ -24,8 +24,8 @@ app.use(serve('./static'));
 app.use(router.routes());
 
 //get
-router.get("/getusers", async (ctx) => {
-    ctx.body={name:"zy",type:"stu"};
+router.get("/getname", async (ctx) => {
+    ctx.body=ctx.session.id;
 })
 
 
