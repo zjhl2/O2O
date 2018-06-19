@@ -31,9 +31,10 @@ router.get("/getusers", async (ctx) => {
 
 //post
 router.post('/pp', async (ctx) => {
-    var tmp=ctx.request.body.name;
-    console.log(ctx.request.body.name);
-    ctx.body=`${tmp} ok`;
+    var name=ctx.request.body.name;
+    var password=ctx.request.body.password;
+    console.log(name+ ' '+password);
+    ctx.body={code:1};
 })
 
 router.post('/signin', async (ctx) => {
