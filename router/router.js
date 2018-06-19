@@ -58,7 +58,9 @@ router.post('/register',async (ctx) => {
 //1.4.1
 //获取昵称
 router.get('/getname', async (ctx) => {
-    ctx.body=ctx.session.id;
+    ctx.body={
+        name:ctx.session.id
+    }
 })
 
 //修改昵称
@@ -72,7 +74,9 @@ router.post('/modifyname',async (ctx) => {
 //1.4.2
 //获取手机号
 router.get('/gettel', async (ctx) => {
-    ctx.body="110";
+    ctx.body={
+        tel:"110"
+    }
 })
 
 //修改手机号
@@ -93,13 +97,49 @@ router.post('/modifytel', async (ctx) => {
 //1.4.3
 //获取邮箱
 router.get('/getemail', async (ctx) => {
-    ctx.body="444@qq.com";
+    ctx.body={
+        email: "444@qq.com"
+    }
 })
 
+//修改邮箱
+router.post('/modifyemail', async (ctx) => {
+    var newemail=ctx.request.body.newemail;
+    if (newemail)
+        ctx.body={
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+    else 
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'新邮箱为空，修改失败'   //错误信息
+        }
+})
 
+//1.4.4 
+//获取密码
+router.get('/getpassword', async (ctx) => {
+    ctx.body="zjhl2或者zy，只有你自己知道";
+})
+
+//修改密码
+router.post('/modifypassword', async (ctx) => {
+    var newpassword=ctx.request.body.ewpassword;
+    if (ewpassword)
+        ctx.body={
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+    else 
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'新密码为空，修改失败'   //错误信息
+        }
+})
 
 //2.1 提交出售订单
-router.post('/submitorder', async (ctx, next) => {
+router.post('/submitorder', async (ctx) => {
     var 
         date=ctx.request.body.date||'',  //预约时间
         address=ctx.request.body.address||'', //取货地址
