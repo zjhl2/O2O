@@ -75,14 +75,18 @@ router.get('/signout',async (ctx) => {
 
 router.post('/submitorder', async (ctx, next) => {
     var 
-        date=ctx.body.date;  //预约时间
-        address=ctx.body.address; //取货地址
-        type=ctx.body.type; //回收类型
-        remark=ctx.body.remark;  //备注
+        date=ctx.request.body.date||'',  //预约时间
+        address=ctx.request.body.address||'', //取货地址
+        type=ctx.request.body.type||'', //回收类型
+        remark=ctx.request.body.remark||'';  //备注
     if (date && address && type) 
-        ctx.body.code=1;
+        ctx.body={
+            code:1
+        };
     else 
-        ctx.body.code=0;
+        ctx.body={
+            code:0
+        }
 })
 
 
