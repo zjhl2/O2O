@@ -34,7 +34,7 @@ router.post('/signin', async (ctx) => {
     var name=ctx.request.body.name;
     var password=ctx.request.body.password;
     console.log(name+ ' '+password);
-    if (name==="zjhl2"&&password==="zjhl2")
+    if ((name==="zjhl2"&&password==="zjhl2")||(name==="zy"&&password=="zy"))
     {
         ctx.session.id=name;
         ctx.body={code:1};
