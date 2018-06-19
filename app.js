@@ -39,38 +39,46 @@ router.post('/signin', async (ctx) => {
         ctx.session.id=name;
         ctx.body={code:1};
     }
-    else ctx.body={code:0};
+    else 
+    {
+        ctx.body=
+        {
+            code:0,
+            err:"用户不存在"
+        };
+    }
 })
 
 router.post('/register',async (ctx) => {
     var
-        name = ctx.request.body.Id || '',
-        email = ctx.request.body["E-mail"] || '',
-        tel = ctx.request.body["Phone-Number"] || '',
-        password = ctx.request.body.Password || '';
-    var res = await DB.findDataByUser(name);
-    if (res.length!=0) {
-        ctx.response.body = `<h1>Register failed! Id exists!</h1>
-        <p><a href="/register.html">Try again</a></p>`;
-    } else {
-        await DB.insertData([name,password,email,tel]);
-        console.log(`user ${name} registerd!`);
-        ctx.response.body = `<h1>Register successd! </h1>
-        <p><a href="/login.html">Go to login! </a></p>`;
+        name = ctx.request.body.name,
+        email = ctx.request.body.email,
+        tel = ctx.request.body.tel,
+        password = ctx.request.body.password ;
+    //var res = await DB.findDataByUser(name);
+    if (!name || !email ||!tel || ! password) {
+        ctx.body={
+            code:2,
+            err:"信息不全"
+        }
+    }
+    else {
+        ctx.body={
+            code:1
+        }
     }
 })
 
 router.get('/signout',async (ctx) => {
     ctx.session = null;
-    ctx.redirect('/login.html');
 })
 
 router.post('/submitorder', async (ctx, next) => {
     var 
-        date=ctx.body["Date"];  //预约时间
-        address=ctx.body["Address"]; //取货地址
-        type=ctx.body["Type"]; //回收类型
-        remark=ctx.body["Remark"];  //备注
+        date=ctx.body.date;  //预约时间
+        address=ctx.body.address; //取货地址
+        type=ctx.body.type; //回收类型
+        remark=ctx.body.remark;  //备注
     if (date && address && type) 
         ctx.body.code=1;
     else 
