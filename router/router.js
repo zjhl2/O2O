@@ -125,8 +125,8 @@ router.get('/getpassword', async (ctx) => {
 
 //修改密码
 router.post('/modifypassword', async (ctx) => {
-    var newpassword=ctx.request.body.ewpassword;
-    if (ewpassword)
+    var newpassword=ctx.request.body.newpassword;
+    if (newpassword)
         ctx.body={
             "code":1,   //1 表示成功 ，2表示失败
             "err":''   //错误信息
