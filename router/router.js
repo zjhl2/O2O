@@ -98,8 +98,8 @@ router.post('/modifyname',async (ctx) => {
     ans = await DB.modifyDataById(ans[0]);
     console.log(ans);
     ctx.body={
-        "code":1,   //1 表示成功 ，2表示失败
-        "err":''   //错误信息
+        "code":2,   //1 表示成功 ，2表示失败
+        "err":'用户名已存在，修改失败'   //错误信息
     }
 })
 
