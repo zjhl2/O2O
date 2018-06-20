@@ -89,13 +89,70 @@
                         <div class="row">
                             <center>
                                 <div class="button-group my-btgp">
-                                    <button id="modify" value="0" onclick="modifyAddr()" class="button button-inverse button-small"><p>编辑</p></button>
+                                    <button id="modify" value="0" onclick="pass(this)"
+                                        class="button button-inverse button-small"
+                                        data-toggle="modal"
+                                        data-target="#modifyAddr">
+                                        <p>编辑</p>
+                                    </button>
+                                    <script>
+                                        function pass(obj){
+                                            add_id = obj.value;
+                                            $('#sub').val(`${add_id}`);
+                                        }
+                                    </script>
+                                    <div class="modal fade" id="modifyAddr" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">编辑地址</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">姓名</span>
+                                                            <input type="text" class="form-control" placeholder="Name" id="modifyName">
+                                                        </div>
+                                                        <div class="input-group" style="margin-top: 5%">
+                                                            <span class="input-group-addon">手机号码</span>
+                                                            <input type="text" class="form-control" placeholder="Tel" id="modifyTel">
+                                                        </div>
+                                                        <div class="input-group" style="margin-top: 5%">
+                                                            <span class="input-group-addon">地址</span>
+                                                            <input type="text" class="form-control" placeholder="Address" id="nAddr">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                        <!-- 修改地址 -->
+                                                        <button id="sub" value="" onclick="sub(this)" class="btn btn-primary">修改</button>
+                                                        <script>
+                                                            function sub(obj){
+                                                                var add_id = obj.value, name=$('#modifyName').val(), tel=$('#modifyTel').val(), address=$('#nAddr').val();
+                                                                $.post('/add_address',{add_id:add_id,name:name,tel:tel,address:address},function(data){
+                                                                    if (data.code===1) modifySuccess();
+                                                                    else modifyFailed(data.err);
+                                                                })
+                                                            }
+                                                        </script>
+                                                    </div>
+                                                    <script>
+                                                        function modifySuccess(){
+                                                            $('#modifyS').removeAttr("hidden");
+                                                        }
+                                                        function modifyFailed(err){
+                                                            $('#modifyF').removeAttr("hidden");
+                                                            document.getElementById("modifyAddressError").innerHTML=err;
+                                                        }
+                                                    </script>
+                                                    <h5 class="modify-error" id="modifyS" hidden="hidden"><strong>修改成功！</strong></h5>
+                                                    <h5 class="modify-error" id="modifyF" hidden="hidden"><strong>修改失败：<span id="modifyAddressError"></span></strong></h5>
+                                                </div>
+                                            </div>
+                                    </div>
                                     <button id="delete" value="0" onclick="removeAddr(this)" class="button button-inverse button-small"><p>删除</p></button>
                                 </div>
                                 <script>
-                                    function modifyAddr(){
-
-                                    }
                                     function removeAddr(obj){
                                         //alert(obj.value);
                                         var add_id = obj.value;
@@ -116,6 +173,62 @@
                     </div>
                 </div>
             </div>
+            <!-- 添加地址 -->
+            <div class="container">
+                <!-- Button trigger modal -->
+                <button onclick="addAddress()"class="button button-glow button-border button-rounded button-primary" 
+                style="width: 100%;margin-top: 10%;"
+                data-toggle="modal" data-target="#add">
+                    添加地址
+                </button>
+                <!-- Modal -->
+                    <div class="modal fade" id="add" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">添加地址</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">姓名</span>
+                                        <input type="text" class="form-control" placeholder="Name" id="newName">
+                                    </div>
+                                    <div class="input-group" style="margin-top: 5%">
+                                        <span class="input-group-addon">手机号码</span>
+                                        <input type="text" class="form-control" placeholder="Tel" id="newTel">
+                                    </div>
+                                    <div class="input-group" style="margin-top: 5%">
+                                        <span class="input-group-addon">地址</span>
+                                        <input type="text" class="form-control" placeholder="Address" id="address">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button onclick="add()" class="btn btn-primary">添加</button>
+                                </div>
+                                <h5 class="modify-error" id="addS" hidden="hidden"><strong>添加成功！</strong></h5>
+                                <h5 class="modify-error" id="addF" hidden="hidden"><strong>添加失败：<span id="addAddressError"></span></strong></h5>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <script>
+                function add(){
+                    var name=$("#newName").val(),tel=$("#newTel").val(),address=$("#address").val();
+                    $.post('/add_address',{name:name,tel:tel,address:address},function(data){
+                        if (data.code===1) addSuccess();
+                        else addFailed(data.err);
+                    })
+                }
+                function addSuccess(){
+                    $('#addS').removeAttr("hidden");
+                }
+                function addFailed(err){
+                    $('#addF').removeAttr("hidden");
+                    document.getElementById("addAddressError").innerHTML=err;
+                }
+            </script>
         </div>
         <script>
             $.get('/getaddresses',function(data){
@@ -131,7 +244,7 @@
                     $(`#${"addrson"+i} #tel`).text(data.addresses[i].tel);
                     $(`#${"addrson"+i} #addressInfor`).text(data.addresses[i].address);   
                     $(`#${"addrson"+i} #delete`).val(`${i}`);
-                    $(`#${"addrson"+i} #modify`).val(`${i}`);              
+                    $(`#${"addrson"+i} #modify`).val(`${i}`);          
                 }
                 tmp.remove();
             });
