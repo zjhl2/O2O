@@ -4,14 +4,14 @@ const router = require('koa-router')();
 const DB = require('../lib/mysql');
 
 
-//1.1 登录
+//1.1 登录 DB
 router.post('/signin', async (ctx) => {
-    var data=ctx.body;
+    var data=ctx.request.body;
     console.log(data.name+ ' '+data.password);
     var ans = await DB.findDataByUser(data.name);
-    if ((name==="zjhl2"&&password==="zjhl2")||(name==="zy"&&password=="zy"))
+    if (ans.length>0)
     {
-        ctx.session.id=name;
+        ctx.session.id=ans[0].user_id;
         ctx.body={
             code:1,
             err:''
@@ -27,7 +27,7 @@ router.post('/signin', async (ctx) => {
 })
 
 
-//1.2 登出
+//1.2 登出 DB
 router.get('/signout',async (ctx) => {
     ctx.session = null;
     ctx.body = {
@@ -40,46 +40,63 @@ router.get('/signout',async (ctx) => {
 //1.3 注册 DB
 router.post('/register',async (ctx) => {
     var data=ctx.request.body;
-    var res;
     if (data.name && data.email && data.tel && data.password) {
         var ans = await DB.findDataByUser(data.name);
         if (ans.length) 
-            res={
+            ctx.body={
                 code:2,
                 err:"用户已存在"
             }
         else {
             ans = await DB.insertData(data);  
             //console.log(ans);
-            res={
+            ctx.body={
                 code:1,
                 err:""
             }
         }
     }
     else {
-        if (data.name) console.log("1 ok");
-        if (data.email) console.log("2 ok");
-        if (data.tel) console.log("3 ok");
-        if (data.password) console.log("4 ok");
-        res={
+        ctx.body={
             code:2,
             err:'信息不完整'
         }
     }
-    ctx.body=res;
 })
 
 //1.4.1
-//获取昵称
+//获取昵称 DB
 router.get('/getname', async (ctx) => {
+    var ans = await DB.findDataById(ctx.session.id);
     ctx.body={
-        name:ctx.session.id
+        name:ans[0].name
     }
 })
 
 //修改昵称
 router.post('/modifyname',async (ctx) => {
+    var data=ctx.request.body;
+    var ans = await DB.findDataById(ctx.session.id);
+    if (ans[0].name===data.newname){
+        ctx.body={
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+        return;
+    }
+    var ans2 = await DB.findDataByUser(data.newname);
+    console.log(ans2);
+    if (ans2.length){
+        console.log("no");
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'用户名已存在，修改失败'   //错误信息
+        }
+        return;
+    }
+    ans[0].name=data.newname;
+    ans = await DB.modifyDataById(ans[0]);
+    console.log(ans);
     ctx.body={
         "code":1,   //1 表示成功 ，2表示失败
         "err":''   //错误信息
