@@ -363,17 +363,10 @@
                 <!-- quit -->
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1 pd" style="padding-bottom: 10%">
-                        <button onclick="signout()" type="submit" class="button button-glow button-border button-rounded button-caution" style="width: 100%;">
+                        <button onclick="window.location.href='/signout'" type="submit" class="button button-glow button-border button-rounded button-caution" style="width: 100%;">
                             退出登录
                         </button>
                     </div>
-                    <script>
-                        function signout(){
-                            $.get('/signout',function(){
-                                window.location.href="login.html";
-                            })
-                        }
-                    </script>
                 </div>
             </div>
         </div>
