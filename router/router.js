@@ -229,6 +229,7 @@ router.post('/submitorder', async (ctx) => {
 router.get('/getorders_recover', async (ctx) => {
     var arr=[];
     arr.push({
+        order_id:10000,
         date:"2018-05-30 12:30",
         name: "朱先生",//出售人姓名
         tel: "15968191111", //出售人电话
@@ -237,6 +238,7 @@ router.get('/getorders_recover', async (ctx) => {
         remark:"废书两本，废旧电池三对"  //备注
     });
     arr.push({
+        order_id:10001,
         date:"2018-06-30 15:20",
         name: "郑雨先生",//出售人姓名
         tel: "15960000", //出售人电话
