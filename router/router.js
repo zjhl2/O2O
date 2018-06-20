@@ -158,7 +158,9 @@ router.get('/getaddresses', async (ctx) => {
         address:"浙江省HDU 110号楼",
         default:0
     });
-    ctx.body=arr;
+    ctx.body={
+        addresses:arr
+    }
 })
 
 //添加地址

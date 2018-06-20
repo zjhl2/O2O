@@ -60,80 +60,70 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="address-item">
+            <div class="container" id="father">
+                <div class="address-item" id="template">
                     <div class="container pd-ad1">
                         <div class="row">
                             <div class="col-xs-1">
                                 <img src="images/icon.ico" class="ad-icon">
                             </div>
                             <div class="col-xs-3">
-                                <p class="ad-tt">地址一</p>
+                                <p class="ad-tt" id="addrcnt">地址一</p>
                             </div>
                         </div>
                         <div class="container pd">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <p>郑雨</p>
+                                    <p id="name">郑雨</p>
                                 </div>
                                 <div class="col-xs-4 pull-right">
-                                    <p>15968812297</p>
+                                    <p id="tel">15968812297</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-11">
-                                    <p>浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼</p>
+                                    <p id="addressInfor">浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼</p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <center>
                                 <div class="button-group my-btgp">
-                                    <button type="button" class="button button-inverse button-small"><p>设为默认</p></button>
-                                    <button type="button" class="button button-inverse button-small"><p>编辑</p></button>
-                                    <button type="button" class="button button-inverse button-small"><p>删除</p></button>
+                                    <button onclick="modifyAddr()" class="button button-inverse button-small"><p>编辑</p></button>
+                                    <button id="delete" value="0" onclick="modifyAddr()" class="button button-inverse button-small"><p>删除</p></button>
                                 </div>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-                <div class="address-item">
-                    <div class="container pd-ad1">
-                        <div class="row">
-                            <div class="col-xs-1">
-                                <img src="images/icon.ico" class="ad-icon">
-                            </div>
-                            <div class="col-xs-3">
-                                <p class="ad-tt">地址二</p>
-                            </div>
-                        </div>
-                        <div class="container pd">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <p>朱家豪</p>
-                                </div>
-                                <div class="col-xs-4 pull-right">
-                                    <p>1596881XXXX</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-11">
-                                    <p>浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <center>
-                                <div class="button-group my-btgp">
-                                    <button type="button" class="button button-inverse button-small"><p>设为默认</p></button>
-                                    <button type="button" class="button button-inverse button-small"><p>编辑</p></button>
-                                    <button type="button" class="button button-inverse button-small"><p>删除</p></button>
-                                </div>
+                                <script>
+                                    function modifyAddr(){
+
+                                    }
+                                    function removeAddr(){
+                                        alert($('delete').val());
+                                    }
+                                </script>
                             </center>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            $.get('/getaddresses',function(data){
+                var n=data.addresses.length;
+                //添加address模块；
+                var tmp=$("#template");
+                for (var i=0;i<n;i++){
+                    var newtmp=tmp.clone();
+                    newtmp.attr('id','addrson'+i);
+                    $("#father").append(newtmp);
+                    $(`#${"addrson"+i} #addrcnt`).text(`地址${i+1}`);
+                    $(`#${"addrson"+i} #name`).text(data.addresses[i].name);
+                    $(`#${"addrson"+i} #tel`).text(data.addresses[i].tel);
+                    $(`#${"addrson"+i} #addressInfor`).text(data.addresses[i].address);   
+                    $(`#${"addrson"+i} #delete`).attr('delete',`delete${i}`);
+                    $(`#${"addrson"+i} #delete`).val(i);             
+                }
+                tmp.remove();
+            });
+        </script>
     </body>
 </html>
