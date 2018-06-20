@@ -213,9 +213,10 @@ router.post('/modify_address', async (ctx) => {
 //2.1 提交出售订单
 router.post('/submitorder', async (ctx) => {
     var data=ctx.request.body;
-    if (data.date && data.addr_id && data.type) 
+    if (data.date && data.addr_id && data.type && data.detail) 
         ctx.body={
-            code:1
+            code:1,
+            err:""
         };
     else 
         ctx.body={
@@ -235,7 +236,7 @@ router.get('/getorders_recover', async (ctx) => {
         tel: "15968191111", //出售人电话
         address: "浙江省HDU 110号楼",  //地址
         type:["废纸","电子废品"],  //回收类型
-        remark:"废书两本，废旧电池三对"  //备注
+        detail:"废书两本，废旧电池三对"  //详细信息
     });
     arr.push({
         order_id:10001,
@@ -244,12 +245,26 @@ router.get('/getorders_recover', async (ctx) => {
         tel: "15960000", //出售人电话
         address: "浙江省HDU 119号楼",  //地址
         type:["废旧衣物","电子废品"],  //回收类型
-        remark:"废衣服一百件，废旧电池一百对"  //备注
+        detail:"废衣服一百件，废旧电池一百对"  //详细信息
     });
     ctx.body={
         orders:arr
     }
 })
 
+router.post('/accept_order', async (ctx) => {
+    var data=ctx.body;
+    if (data.order_id && data.tel)        
+        ctx.body={
+            code:1
+        };
+    else 
+        ctx.body={
+            code:0,
+            err:"有信息为空，提交失败"
+        }
+    
+
+})
 
 module.exports = router;
