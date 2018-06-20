@@ -29,6 +29,9 @@ router.post('/signin', async (ctx) => {
 //1.2 登出
 router.get('/signout',async (ctx) => {
     ctx.session = null;
+    ctx.body = {
+        code:1
+    }
 })
 
 
