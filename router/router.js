@@ -73,57 +73,69 @@ router.get('/getname', async (ctx) => {
     }
 })
 
-//修改昵称
+//修改昵称 DB
 router.post('/modifyname',async (ctx) => {
     var data=ctx.request.body;
     var ans = await DB.findDataById(ctx.session.id);
     if (ans[0].name===data.newname){
         ctx.body={
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'请输入新的用户名'   //错误信息
         }
         return;
     }
     var ans2 = await DB.findDataByUser(data.newname);
-    console.log(ans2);
     if (ans2.length){
-        console.log("no");
+        console.log("用户名已存在，修改失败");
         ctx.body={
             "code":2,   //1 表示成功 ，2表示失败
             "err":'用户名已存在，修改失败'   //错误信息
         }
-        return;
+        return; 
     }
     ans[0].name=data.newname;
-    ans = await DB.modifyDataById(ans[0]);
-    console.log(ans);
+    ans = await DB.modifyData(ans[0]);
     ctx.body={
-        "code":2,   //1 表示成功 ，2表示失败
-        "err":'用户名已存在，修改失败'   //错误信息
+        "code":1,   //1 表示成功 ，2表示失败
+        "err":''   //错误信息
     }
 })
 
 //1.4.2
-//获取手机号
+//获取手机号 DB
 router.get('/gettel', async (ctx) => {
+    var ans = await DB.findDataById(ctx.session.id);
     ctx.body={
-        tel:"110"
+        tel:ans[0].tel
     }
 })
 
 //修改手机号
 router.post('/modifytel', async (ctx) => {
-    var newtel=ctx.request.body.newtel;
-    if (newtel)
-        ctx.body={
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
-        }
-    else 
+    var data=ctx.request.body;
+    var ans = await DB.findDataById(ctx.session.id);
+    if (ans[0].tel===data.newtel){
         ctx.body={
             "code":2,   //1 表示成功 ，2表示失败
-            "err":'新号码为空，修改失败'   //错误信息
+            "err":'请输入新的号码'   //错误信息
         }
+        return;
+    }
+    var ans2 = await DB.findDataByTel(data.newtel);
+    if (ans2.length){
+        console.log("号码已存在，修改失败");
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'号码已存在，修改失败'   //错误信息
+        }
+        return; 
+    }
+    ans[0].tel=data.newtel;
+    ans = await DB.modifyData(ans[0]);
+    ctx.body={
+        "code":1,   //1 表示成功 ，2表示失败
+        "err":''   //错误信息
+    }
 })
 
 //1.4.3
