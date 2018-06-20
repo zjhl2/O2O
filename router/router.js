@@ -138,6 +138,76 @@ router.post('/modifypassword', async (ctx) => {
         }
 })
 
+//1.4.5
+//获取地址
+router.get('/getaddresses', async (ctx) => {
+    var name = ctx.session.id;
+    console.log(`${name} getaddresses`);
+    var arr = [];
+    arr.push({
+        add_id:10000000,
+        name:"郑先生",
+        tel:"15968190000",
+        address:"浙江省HDU 12号楼"
+    });
+    arr.push({
+        add_id:10000001,
+        name:"朱先生",
+        tel:"15968191111",
+        address:"浙江省HDU 110号楼"
+    });
+    ctx.body=arr;
+})
+
+//添加地址
+router.post('/add_address', async (ctx) => {
+    var data = ctx.request.body;
+    console.log(data);
+    if (data.name && data.tel && data.address)
+        ctx.body = {
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+    else 
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'有信息为空，修改失败'   //错误信息
+        }
+        
+})
+
+//删除地址
+router.post('/remove_address', async (ctx) => {
+    var data = ctx.request.body;
+    if (data.add_id)
+        ctx.body = {
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+    else 
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'地址编号不存在，后台出错，修改失败'   //错误信息
+        }
+        
+})
+
+//修改地址
+router.post('/modify_address', async (ctx) => {
+    var data = ctx.request.body;
+    if (data.add_id && data.name && data.tel && data.address)
+        ctx.body = {
+            "code":1,   //1 表示成功 ，2表示失败
+            "err":''   //错误信息
+        }
+    else 
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'有信息为空，修改失败'   //错误信息
+        }
+})
+
+
 //2.1 提交出售订单
 router.post('/submitorder', async (ctx) => {
     var 
