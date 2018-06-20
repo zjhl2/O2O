@@ -217,7 +217,7 @@ router.post('/submitorder', async (ctx) => {
         ctx.body={
             code:1,
             err:""
-        };
+        }
     else 
         ctx.body={
             code:0,
@@ -258,7 +258,7 @@ router.post('/accept_order', async (ctx) => {
     if (data.order_id && data.tel)        
         ctx.body={
             code:1
-        };
+        }
     else 
         ctx.body={
             code:0,
@@ -279,8 +279,9 @@ router.get('/get_myorders', async (ctx) => {
         address: "浙江省HDU 110号楼",  //地址
         type:["废纸","电子废品"],  //回收类型
         detail:"废书两本，废旧电池三对",  //详细信息
-        name2:"郑先生",  //回收人姓名
-        tel2:"110"
+        name2:"zy",  //回收人用户名
+        tel2:"110", //回收人电话
+        status:1  //完成
 
     });
     arr.push({
@@ -291,8 +292,9 @@ router.get('/get_myorders', async (ctx) => {
         address: "浙江省HDU 119号楼",  //地址
         type:["废旧衣物","电子废品"],  //回收类型
         detail:"废衣服一百件，废旧电池一百对",  //详细信息
-        name2:"朱先生",  //回收人姓名
-        tel2:"119"
+        name2:"zjhl2",  //回收人用户名
+        tel2:"119", //回收人电话
+        status:2  //未完成
     });
     ctx.body={
         orders:arr
