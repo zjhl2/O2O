@@ -1,13 +1,14 @@
 'use strict';
 
 const router = require('koa-router')();
+const DB = require('../lib/mysql');
 
 
 //1.1 登录
 router.post('/signin', async (ctx) => {
-    var name=ctx.request.body.name;
-    var password=ctx.request.body.password;
-    console.log(name+ ' '+password);
+    var data=ctx.body;
+    console.log(data.name+ ' '+data.password);
+    var ans = await DB.findDataByUser(data.name);
     if ((name==="zjhl2"&&password==="zjhl2")||(name==="zy"&&password=="zy"))
     {
         ctx.session.id=name;
@@ -33,26 +34,37 @@ router.get('/signout',async (ctx) => {
 
 
 
-//1.3 注册
+//1.3 注册 DB
 router.post('/register',async (ctx) => {
-    var
-        name = ctx.request.body.name,
-        email = ctx.request.body.email,
-        tel = ctx.request.body.tel,
-        password = ctx.request.body.password ;
-    //var res = await DB.findDataByUser(name);
-    if (!name || !email ||!tel || ! password) {
-        ctx.body={
-            code:2,
-            err:"信息不全"
+    var data=ctx.request.body;
+    var res;
+    if (data.name && data.email && data.tel && data.password) {
+        var ans = await DB.findDataByUser(data.name);
+        if (ans.length) 
+            res={
+                code:2,
+                err:"用户已存在"
+            }
+        else {
+            ans = await DB.insertData(data);  
+            //console.log(ans);
+            res={
+                code:1,
+                err:""
+            }
         }
     }
     else {
-        ctx.body={
-            code:1,
-            err:''
+        if (data.name) console.log("1 ok");
+        if (data.email) console.log("2 ok");
+        if (data.tel) console.log("3 ok");
+        if (data.password) console.log("4 ok");
+        res={
+            code:2,
+            err:'信息不完整'
         }
     }
+    ctx.body=res;
 })
 
 //1.4.1

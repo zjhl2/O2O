@@ -6,7 +6,6 @@ const router = require('./router/router.js');
 const session = require('koa-session');
 const  serve = require("koa-static");
 const bodyParser = require('koa-bodyparser');
-const DB = require('./lib/mysql');
 const midw = require('./middleware/middleware.js');
 
 const app = new koa;
