@@ -110,7 +110,7 @@ router.get('/gettel', async (ctx) => {
     }
 })
 
-//修改手机号
+//修改手机号 DB
 router.post('/modifytel', async (ctx) => {
     var data=ctx.request.body;
     var ans = await DB.findDataById(ctx.session.id);
@@ -139,47 +139,58 @@ router.post('/modifytel', async (ctx) => {
 })
 
 //1.4.3
-//获取邮箱
+//获取邮箱 DB
 router.get('/getemail', async (ctx) => {
+    var ans = await DB.findDataById(ctx.session.id);
     ctx.body={
-        email: "444@qq.com"
+        email:ans[0].email
     }
 })
 
-//修改邮箱
+//修改邮箱 DB
 router.post('/modifyemail', async (ctx) => {
-    var newemail=ctx.request.body.newemail;
-    if (newemail)
-        ctx.body={
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
-        }
-    else 
+    var data=ctx.request.body;
+    var ans = await DB.findDataById(ctx.session.id);
+    if (ans[0].tel===data.newemail){
         ctx.body={
             "code":2,   //1 表示成功 ，2表示失败
-            "err":'新邮箱为空，修改失败'   //错误信息
+            "err":'请输入新的号码'   //错误信息
         }
+        return;
+    }
+    var ans2 = await DB.findDataByEmail(data.newemail);
+    if (ans2.length){
+        console.log("email已存在，修改失败");
+        ctx.body={
+            "code":2,   //1 表示成功 ，2表示失败
+            "err":'email已存在，修改失败'   //错误信息
+        }
+        return; 
+    }
+    ans[0].email=data.newemail;
+    ans = await DB.modifyData(ans[0]);
+    ctx.body={
+        "code":1,   //1 表示成功 ，2表示失败
+        "err":''   //错误信息
+    }
 })
 
 //1.4.4 
 //获取密码
 router.get('/getpassword', async (ctx) => {
-    ctx.body="zjhl2或者zy，只有你自己知道";
+    ctx.body="只有你自己知道";
 })
 
-//修改密码
+//修改密码 DB
 router.post('/modifypassword', async (ctx) => {
-    var newpassword=ctx.request.body.newpassword;
-    if (newpassword)
-        ctx.body={
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
-        }
-    else 
-        ctx.body={
-            "code":2,   //1 表示成功 ，2表示失败
-            "err":'新密码为空，修改失败'   //错误信息
-        }
+    var data=ctx.request.body;
+    var ans = await DB.findDataById(ctx.session.id);
+    ans[0].password=data.newpassword;
+    ans = await DB.modifyData(ans[0]);
+    ctx.body={
+        "code":1,   //1 表示成功 ，2表示失败
+        "err":''   //错误信息
+    }
 })
 
 //1.4.5
