@@ -148,13 +148,15 @@ router.get('/getaddresses', async (ctx) => {
         add_id:10000000,
         name:"郑先生",
         tel:"15968190000",
-        address:"浙江省HDU 12号楼"
+        address:"浙江省HDU 12号楼",
+        default:0
     });
     arr.push({
         add_id:10000001,
         name:"朱先生",
         tel:"15968191111",
-        address:"浙江省HDU 110号楼"
+        address:"浙江省HDU 110号楼",
+        default:0
     });
     ctx.body=arr;
 })
