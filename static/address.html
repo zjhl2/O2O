@@ -89,15 +89,26 @@
                         <div class="row">
                             <center>
                                 <div class="button-group my-btgp">
-                                    <button onclick="modifyAddr()" class="button button-inverse button-small"><p>编辑</p></button>
-                                    <button id="delete" value="0" onclick="modifyAddr()" class="button button-inverse button-small"><p>删除</p></button>
+                                    <button id="modify" value="0" onclick="modifyAddr()" class="button button-inverse button-small"><p>编辑</p></button>
+                                    <button id="delete" value="0" onclick="removeAddr(this)" class="button button-inverse button-small"><p>删除</p></button>
                                 </div>
                                 <script>
                                     function modifyAddr(){
 
                                     }
-                                    function removeAddr(){
-                                        alert($('delete').val());
+                                    function removeAddr(obj){
+                                        //alert(obj.value);
+                                        var add_id = obj.value;
+                                        $.post('/remove_address',{add_id:add_id},function(data){
+                                            if (data.code===1) removeAddrSuccess(add_id);
+                                            else removeAddrFailed();
+                                            })
+                                    }
+                                    function removeAddrSuccess(add_id){
+                                        $(`#addrson${add_id}`).remove();
+                                    }
+                                    function removeAddrFailed(){
+                                        alert("删除失败！");
                                     }
                                 </script>
                             </center>
@@ -119,8 +130,8 @@
                     $(`#${"addrson"+i} #name`).text(data.addresses[i].name);
                     $(`#${"addrson"+i} #tel`).text(data.addresses[i].tel);
                     $(`#${"addrson"+i} #addressInfor`).text(data.addresses[i].address);   
-                    $(`#${"addrson"+i} #delete`).attr('delete',`delete${i}`);
-                    $(`#${"addrson"+i} #delete`).val(i);             
+                    $(`#${"addrson"+i} #delete`).val(`${i}`);
+                    $(`#${"addrson"+i} #modify`).val(`${i}`);              
                 }
                 tmp.remove();
             });
