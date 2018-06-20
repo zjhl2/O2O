@@ -252,6 +252,7 @@ router.get('/getorders_recover', async (ctx) => {
     }
 })
 
+//2.3 接受订单
 router.post('/accept_order', async (ctx) => {
     var data=ctx.body;
     if (data.order_id && data.tel)        
@@ -265,6 +266,37 @@ router.post('/accept_order', async (ctx) => {
         }
     
 
+})
+
+//2.4 获取与我相关的订单
+router.get('/get_myorders', async (ctx) => {
+    var arr=[];
+    arr.push({
+        order_id:10000,
+        date:"2018-05-30 12:30",
+        name: "朱先生",//出售人姓名
+        tel: "15968191111", //出售人电话
+        address: "浙江省HDU 110号楼",  //地址
+        type:["废纸","电子废品"],  //回收类型
+        detail:"废书两本，废旧电池三对",  //详细信息
+        name2:"郑先生",  //回收人姓名
+        tel2:"110"
+
+    });
+    arr.push({
+        order_id:10001,
+        date:"2018-06-30 15:20",
+        name: "郑先生",//出售人姓名
+        tel: "15960000", //出售人电话
+        address: "浙江省HDU 119号楼",  //地址
+        type:["废旧衣物","电子废品"],  //回收类型
+        detail:"废衣服一百件，废旧电池一百对",  //详细信息
+        name2:"朱先生",  //回收人姓名
+        tel2:"119"
+    });
+    ctx.body={
+        orders:arr
+    }
 })
 
 module.exports = router;
