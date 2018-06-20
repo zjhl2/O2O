@@ -148,15 +148,13 @@ router.get('/getaddresses', async (ctx) => {
         add_id:10000000,
         name:"郑先生",
         tel:"15968190000",
-        address:"浙江省HDU 12号楼",
-        default:0
+        address:"浙江省HDU 12号楼"
     });
     arr.push({
         add_id:10000001,
         name:"朱先生",
         tel:"15968191111",
-        address:"浙江省HDU 110号楼",
-        default:0
+        address:"浙江省HDU 110号楼"
     });
     ctx.body={
         addresses:arr
@@ -214,19 +212,42 @@ router.post('/modify_address', async (ctx) => {
 
 //2.1 提交出售订单
 router.post('/submitorder', async (ctx) => {
-    var 
-        date=ctx.request.body.date||'',  //预约时间
-        address=ctx.request.body.address||'', //取货地址
-        type=ctx.request.body.type||'', //回收类型
-        remark=ctx.request.body.remark||'';  //备注
-    if (date && address && type) 
+    var data=ctx.request.body;
+    if (data.date && data.addr_id && data.type) 
         ctx.body={
             code:1
         };
     else 
         ctx.body={
-            code:0
+            code:0,
+            err:"有信息为空，提交失败"
         }
 })
+
+//2.2
+//获取待回收订单
+router.get('/getorders_recover', async (ctx) => {
+    var arr=[];
+    arr.push({
+        date:"2018-05-30 12:30",
+        name: "朱先生",//出售人姓名
+        tel: "15968191111", //出售人电话
+        address: "浙江省HDU 110号楼",  //地址
+        type:["废纸","电子废品"],  //回收类型
+        remark:"废书两本，废旧电池三对"  //备注
+    });
+    arr.push({
+        date:"2018-06-30 15:20",
+        name: "郑雨先生",//出售人姓名
+        tel: "15960000", //出售人电话
+        address: "浙江省HDU 119号楼",  //地址
+        type:["废旧衣物","电子废品"],  //回收类型
+        remark:"废衣服一百件，废旧电池一百对"  //备注
+    });
+    ctx.body={
+        orders:arr
+    }
+})
+
 
 module.exports = router;
