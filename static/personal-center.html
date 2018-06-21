@@ -108,7 +108,7 @@
                                                 var newname=$('#newName').val();
                                                 $.post('/modifyname',{newname:newname},function(data){
                                                 if (data.code===1) modifyNameSuccess(newname);
-                                                else modifyNameFailed();
+                                                else modifyNameFailed(data);
                                                 })
                                             }
                                             function modifyNameSuccess(newname){
@@ -116,7 +116,7 @@
                                                 document.getElementById('name').innerHTML=newname;
                                                 document.getElementById('name1').innerHTML=newname;
                                             }
-                                            function modifyNameFailed(){
+                                            function modifyNameFailed(data){
                                                 $('#nameErrorAlert').removeAttr("hidden");
                                                 document.getElementById("modifyNameError").innerHTML=data.err;
                                             }
