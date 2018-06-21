@@ -332,13 +332,19 @@ router.get('/getorders_recover', async (ctx) => {
     }
 })
 
-//2.3 接受订单
+//2.3 接受订单 DB
 router.post('/accept_order', async (ctx) => {
     var data=ctx.request.body;
-    if (data.order_id && data.name && data.tel)        
+    data.user_id2=ctx.session.id;
+    var ans=await DB.findDataById(data.user_id2);
+    data.name=ans[0].name;
+    data.tel=ans[0].tel;
+    if (data.order_id && data.name && data.tel) {  
+        var ans=await DB.accept_order(data);
         ctx.body={
             code:1
         }
+    }
     else 
         ctx.body={
             code:0,
