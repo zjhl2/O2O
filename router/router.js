@@ -214,10 +214,18 @@ router.get('/getaddresses', async (ctx) => {
 router.post('/add_address', async (ctx) => {
     var data = ctx.request.body;
     data.user_id = ctx.session.id;
-    var ans = await DB.add_address(data);
-    ctx.body={
-        code:1,
-        err:""
+    if (data.name && data.tel && data.address) {
+        var ans = await DB.add_address(data);
+        ctx.body={
+            code:1,
+            err:""
+        }
+    }
+    else {
+        ctx.body={
+            code:2,
+            err:"请填写完整"
+        }
     }
 })
 
