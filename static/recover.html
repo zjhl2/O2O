@@ -125,7 +125,8 @@
                         function receive(obj){
                             var order_id = obj.value;
                             var tel=$(`#tel${order_id}`).html();
-                            $.post('/accept_order',{order_id:order_id,tel:tel},function(data){
+                            var name=$(`#name${order_id}`).html();
+                            $.post('/accept_order',{order_id:order_id,name:name,tel:tel},function(data){
                                 if (data.code===1) acceptSuccess();
                                 else acceptFailed(data.err);
                             })
@@ -157,6 +158,7 @@
                 $(`#orderson${data.orders[i].order_id} #detail`).text(data.orders[i].detail);
                 $(`#orderson${data.orders[i].order_id} #addr`).text(data.orders[i].address);
                 $(`#orderson${data.orders[i].order_id} #name`).text(data.orders[i].name);
+                $(`#orderson${data.orders[i].order_id} #name`).attr('id','name'+data.orders[i].order_id);
                 $(`#orderson${data.orders[i].order_id} #tel`).text(data.orders[i].tel);
                 $(`#orderson${data.orders[i].order_id} #tel`).attr('id','tel'+data.orders[i].order_id);
                 $(`#orderson${data.orders[i].order_id} #accept`).val(data.orders[i].order_id);
