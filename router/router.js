@@ -42,14 +42,14 @@ router.get('/signout',async (ctx) => {
 router.post('/register',async (ctx) => {
     var data=ctx.request.body;
     if (data.name && data.email && data.tel && data.password) {
-        var ans = await DB.register(data.name);
+        var ans = await DB.findDataByUser(data.name);
         if (ans.length) 
             ctx.body={
                 code:2,
                 err:"用户已存在"
             }
         else {
-            ans = await DB.insertData(data);  
+            ans = await DB.register(data);  
             console.log(`用户${data.name} 注册成功`);
             ctx.body={
                 code:1,
