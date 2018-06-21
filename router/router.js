@@ -41,7 +41,7 @@ router.get('/signout',async (ctx) => {
 router.post('/register',async (ctx) => {
     var data=ctx.request.body;
     if (data.name && data.email && data.tel && data.password) {
-        var ans = await DB.findDataByUser(data.name);
+        var ans = await DB.register(data.name);
         if (ans.length) 
             ctx.body={
                 code:2,
@@ -194,43 +194,31 @@ router.post('/modifypassword', async (ctx) => {
 })
 
 //1.4.5
-//获取地址
+//获取地址 DB
 router.get('/getaddresses', async (ctx) => {
-    var name = ctx.session.id;
-    console.log(`${name} getaddresses`);
+    var ans = await DB.get_address(ctx.session.id);
     var arr = [];
-    arr.push({
-        add_id:10000000,
-        name:"郑先生",
-        tel:"15968190000",
-        address:"浙江省HDU 12号楼"
-    });
-    arr.push({
-        add_id:10000001,
-        name:"朱先生",
-        tel:"15968191111",
-        address:"浙江省HDU 110号楼"
-    });
+    for (let i=0;i<ans.length;i++)
+        arr.push({
+            add_id:ans[i].addr_id,
+            name:ans[i].addr_name,
+            tel:ans[i].addr_tel,
+            address:ans[i].addr_addr
+        });
     ctx.body={
         addresses:arr
     }
 })
 
-//添加地址
+//添加地址 DB
 router.post('/add_address', async (ctx) => {
     var data = ctx.request.body;
-    console.log(data);
-    if (data.name && data.tel && data.address)
-        ctx.body = {
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
-        }
-    else 
-        ctx.body={
-            "code":2,   //1 表示成功 ，2表示失败
-            "err":'有信息为空，修改失败'   //错误信息
-        }
-        
+    data.user_id = ctx.session.id;
+    var ans = await DB.add_address(data);
+    ctx.body={
+        code:1,
+        err:""
+    }
 })
 
 //删除地址
