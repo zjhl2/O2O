@@ -115,9 +115,29 @@
                     </div>
                     <div class="row">
                         <button class="button button-plain button-tiny button-box button-border-thin button-mybtn" 
-                        style="width: 70%;margin-left: 15%;">
+                        style="width: 70%;margin-left: 15%;"
+                        onclick="receive(this)"
+                        id="accept"
+                        value="0">
                         <p style="font-size: 14px">接受订单</p>
                     </div>
+                    <script>
+                        function receive(obj){
+                            var order_id = obj.value;
+                            var tel=$(`#tel${order_id}`).html();
+                            $.post('/accept_order',{order_id:order_id,tel:tel},function(data){
+                                if (data.code===1) acceptSuccess();
+                                else acceptFailed(data.err);
+                            })
+                        }
+                        function acceptSuccess(){
+                            alert("接受订单成功！");
+                            window.location.href="recover.html";
+                        }
+                        function acceptFailed(){
+                            alert("接受订单失败！");
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -138,6 +158,8 @@
                 $(`#orderson${data.orders[i].order_id} #addr`).text(data.orders[i].address);
                 $(`#orderson${data.orders[i].order_id} #name`).text(data.orders[i].name);
                 $(`#orderson${data.orders[i].order_id} #tel`).text(data.orders[i].tel);
+                $(`#orderson${data.orders[i].order_id} #tel`).attr('id','tel'+data.orders[i].order_id);
+                $(`#orderson${data.orders[i].order_id} #accept`).val(data.orders[i].order_id);
             }
             tmp.remove();
         });
