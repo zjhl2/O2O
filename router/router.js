@@ -356,32 +356,37 @@ router.post('/accept_order', async (ctx) => {
 
 //2.4 获取与我相关的订单
 router.get('/get_myorders', async (ctx) => {
+    var id=ctx.session.id;
+    var ans=await DB.get_myorders(id);
     var arr=[];
-    arr.push({
-        order_id:10000,
-        date:"2018-05-30 12:30",
-        name: "朱先生",//出售人姓名
-        tel: "15968191111", //出售人电话
-        address: "浙江省HDU 110号楼",  //地址
-        type:"废纸,电子废品",  //回收类型
-        detail:"废书两本，废旧电池三对",  //详细信息
-        name2:"zy",  //回收人用户名
-        tel2:"110", //回收人电话
-        status:1  //完成
-
-    });
-    arr.push({
-        order_id:10001,
-        date:"2018-06-30 15:20",
-        name: "郑先生",//出售人姓名
-        tel: "15960000", //出售人电话
-        address: "浙江省HDU 119号楼",  //地址
-        type:"废旧衣物,电子废品",  //回收类型
-        detail:"废衣服一百件，废旧电池一百对",  //详细信息
-        name2:"zjhl2",  //回收人用户名
-        tel2:"119", //回收人电话
-        status:2  //未完成
-    });
+    for (let i=0;i<ans.length;i++)
+    if (!ans[i].user_id2)
+        arr.push({
+            order_id: ans[i].order_id,
+            date: ans[i].date,
+            name: ans[i].addr_name,//出售人姓名
+            tel: ans[i].addr_tel, //出售人电话
+            address: ans[i].addr_addr,  //地址
+            type: ans[i].type,  //回收类型
+            detail: ans[i].detail,  //详细信息
+            name2: ans[i].name2,  //回收人用户名
+            tel2: ans[i].tel2, //回收人电话
+            status:2  //未完成
+        });
+    for (let i=0;i<ans.length;i++)
+    if (ans[i].user_id2)
+        arr.push({
+            order_id: ans[i].order_id,
+            date: ans[i].date,
+            name: ans[i].addr_name,//出售人姓名
+            tel: ans[i].addr_tel, //出售人电话
+            address: ans[i].addr_addr,  //地址
+            type: ans[i].type,  //回收类型
+            detail: ans[i].detail,  //详细信息
+            name2: ans[i].name2,  //回收人用户名
+            tel2: ans[i].tel2, //回收人电话
+            status:1  //完成
+        });
     ctx.body={
         orders:arr
     }
