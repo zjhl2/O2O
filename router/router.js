@@ -297,10 +297,9 @@ router.post('/modify_address', async (ctx) => {
 //2.1 提交出售订单 DB
 router.post('/submitorder', async (ctx) => {
     var data=ctx.request.body;
-    data.user_id=ctx.session.id;
     if (data.date && data.addr_id && data.type && data.detail) {
         var ans = await DB.submitorder(data);
-        console.log(`用户id=${data.user_id} 提交订单成功`);
+        console.log(`用户id=${ctx.session.id} 提交订单成功`);
         ctx.body={
             code:1,
             err:""
