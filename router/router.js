@@ -245,14 +245,16 @@ router.post('/remove_address', async (ctx) => {
         
 })
 
-//修改地址
+//修改地址 DB  ???
 router.post('/modify_address', async (ctx) => {
     var data = ctx.request.body;
-    if (data.add_id && data.name && data.tel && data.address)
+    if (data.add_id && data.name && data.tel && data.address){
+        var ans = await DB.modify_address(data);
         ctx.body = {
             "code":1,   //1 表示成功 ，2表示失败
             "err":''   //错误信息
         }
+    }
     else 
         ctx.body={
             "code":2,   //1 表示成功 ，2表示失败
