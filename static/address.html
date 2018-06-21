@@ -129,7 +129,7 @@
                                                         <script>
                                                             function sub(obj){
                                                                 var add_id = obj.value, name=$('#modifyName').val(), tel=$('#modifyTel').val(), address=$('#nAddr').val();
-                                                                $.post('/add_address',{add_id:add_id,name:name,tel:tel,address:address},function(data){
+                                                                $.post('/modify_address',{add_id:add_id,name:name,tel:tel,address:address},function(data){
                                                                     if (data.code===1) modifySuccess();
                                                                     else modifyFailed(data.err);
                                                                 })
@@ -237,14 +237,14 @@
                 var tmp=$("#template");
                 for (var i=0;i<n;i++){
                     var newtmp=tmp.clone();
-                    newtmp.attr('id','addrson'+i);
+                    newtmp.attr('id','addrson'+data.addresses[i].add_id);
                     $("#father").append(newtmp);
-                    $(`#${"addrson"+i} #addrcnt`).text(`地址${i+1}`);
-                    $(`#${"addrson"+i} #name`).text(data.addresses[i].name);
-                    $(`#${"addrson"+i} #tel`).text(data.addresses[i].tel);
-                    $(`#${"addrson"+i} #addressInfor`).text(data.addresses[i].address);   
-                    $(`#${"addrson"+i} #delete`).val(`${i}`);
-                    $(`#${"addrson"+i} #modify`).val(`${i}`);          
+                    $(`#${"addrson"+data.addresses[i].add_id} #addrcnt`).text(`地址${i+1}`);
+                    $(`#${"addrson"+data.addresses[i].add_id} #name`).text(data.addresses[i].name);
+                    $(`#${"addrson"+data.addresses[i].add_id} #tel`).text(data.addresses[i].tel);
+                    $(`#${"addrson"+data.addresses[i].add_id} #addressInfor`).text(data.addresses[i].address);   
+                    $(`#${"addrson"+data.addresses[i].add_id} #delete`).val(`${data.addresses[i].add_id}`);
+                    $(`#${"addrson"+data.addresses[i].add_id} #modify`).val(`${data.addresses[i].add_id}`);          
                 }
                 tmp.remove();
             });
