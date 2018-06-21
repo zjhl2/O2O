@@ -294,7 +294,7 @@ router.post('/modify_address', async (ctx) => {
 })
 
 
-//2.1 提交出售订单
+//2.1 提交出售订单 DB
 router.post('/submitorder', async (ctx) => {
     var data=ctx.request.body;
     data.user_id=ctx.session.id;
@@ -314,7 +314,7 @@ router.post('/submitorder', async (ctx) => {
 })
 
 //2.2
-//获取待回收订单
+//获取待回收订单 DB
 router.get('/getorders_recover', async (ctx) => {
     var ans=await DB.getorders_recover();
     var arr=[];
