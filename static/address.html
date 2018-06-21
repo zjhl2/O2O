@@ -129,7 +129,7 @@
                                                         <script>
                                                             function sub(obj){
                                                                 var add_id = obj.value, name=$('#modifyName').val(), tel=$('#modifyTel').val(), address=$('#nAddr').val();
-                                                                $.post('/add_address',{add_id:add_id,name:name,tel:tel,address:address},function(data){
+                                                                $.post('/modify_address',{add_id:add_id,name:name,tel:tel,address:address},function(data){
                                                                     if (data.code===1) modifySuccess();
                                                                     else modifyFailed(data.err);
                                                                 })
