@@ -7,11 +7,11 @@ const DB = require('../lib/mysql');
 //1.1 登录 DB
 router.post('/signin', async (ctx) => {
     var data=ctx.request.body;
-    console.log(data.name+ ' '+data.password);
     var ans = await DB.findDataByUser(data.name);
     if (ans.length>0)
     {
         ctx.session.id=ans[0].user_id;
+        console.log(`用户${data.name} 登录成功`);
         ctx.body={
             code:1,
             err:''
@@ -29,6 +29,7 @@ router.post('/signin', async (ctx) => {
 
 //1.2 登出 DB
 router.get('/signout',async (ctx) => {
+    console.log(`用户id=${ctx.session.id} 登出成功`);
     ctx.session = null;
     ctx.body = {
         code:1
@@ -49,7 +50,7 @@ router.post('/register',async (ctx) => {
             }
         else {
             ans = await DB.insertData(data);  
-            //console.log(ans);
+            console.log(`用户${data.name} 注册成功`);
             ctx.body={
                 code:1,
                 err:""
@@ -93,8 +94,10 @@ router.post('/modifyname',async (ctx) => {
         }
         return; 
     }
+    var prename=ans[0].name;
     ans[0].name=data.newname;
     ans = await DB.modifyData(ans[0]);
+    console.log(`用户${prename} 修改用户名为${data.newname} 成功`);
     ctx.body={
         "code":1,   //1 表示成功 ，2表示失败
         "err":''   //错误信息
@@ -130,8 +133,10 @@ router.post('/modifytel', async (ctx) => {
         }
         return; 
     }
+    var name=ans[0].name;
     ans[0].tel=data.newtel;
     ans = await DB.modifyData(ans[0]);
+    console.log(`用户${name} 修改号码为${data.newtel} 成功`);
     ctx.body={
         "code":1,   //1 表示成功 ，2表示失败
         "err":''   //错误信息
@@ -167,8 +172,10 @@ router.post('/modifyemail', async (ctx) => {
         }
         return; 
     }
+    var name=ans[0].name;
     ans[0].email=data.newemail;
     ans = await DB.modifyData(ans[0]);
+    console.log(`用户${name} 修改邮箱为${data.newemail} 成功`);
     ctx.body={
         "code":1,   //1 表示成功 ，2表示失败
         "err":''   //错误信息
@@ -185,8 +192,10 @@ router.get('/getpassword', async (ctx) => {
 router.post('/modifypassword', async (ctx) => {
     var data=ctx.request.body;
     var ans = await DB.findDataById(ctx.session.id);
+    var name=ans[0].name;
     ans[0].password=data.newpassword;
     ans = await DB.modifyData(ans[0]);
+    console.log(`用户${name} 修改密码成功`);
     ctx.body={
         "code":1,   //1 表示成功 ，2表示失败
         "err":''   //错误信息
@@ -216,6 +225,7 @@ router.post('/add_address', async (ctx) => {
     data.user_id = ctx.session.id;
     if (data.name && data.tel && data.address) {
         var ans = await DB.add_address(data);
+        console.log(`用户id=${data.user_id} 添加地址成功`);
         ctx.body={
             code:1,
             err:""
@@ -229,14 +239,26 @@ router.post('/add_address', async (ctx) => {
     }
 })
 
-//删除地址
+//删除地址 DB
 router.post('/remove_address', async (ctx) => {
     var data = ctx.request.body;
-    if (data.add_id)
-        ctx.body = {
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
+    if (data.add_id){
+        var ans = await DB.remove_address(data.add_id);
+        console.log(ans);
+        if (ans.affectedRows){
+            console.log(`用户id=${data.user_id} 删除地址成功`);
+            ctx.body = {
+                "code":1,   //1 表示成功 ，2表示失败
+                "err":''   //错误信息
+            }
         }
+        else 
+            ctx.body={
+                "code":2,   //1 表示成功 ，2表示失败
+                "err":'地址不存在，请刷新页面'   //错误信息
+            }
+            
+    }
     else 
         ctx.body={
             "code":2,   //1 表示成功 ，2表示失败
@@ -245,15 +267,24 @@ router.post('/remove_address', async (ctx) => {
         
 })
 
-//修改地址 DB  ???
+//修改地址 DB  
 router.post('/modify_address', async (ctx) => {
     var data = ctx.request.body;
     if (data.add_id && data.name && data.tel && data.address){
         var ans = await DB.modify_address(data);
-        ctx.body = {
-            "code":1,   //1 表示成功 ，2表示失败
-            "err":''   //错误信息
+        console.log(ans);
+        if (ans.affectedRows){
+            console.log(`地址id=${data.add_id} 修改成功`);
+            ctx.body = {
+                "code":1,   //1 表示成功 ，2表示失败
+                "err":''   //错误信息
+            }
         }
+        else 
+            ctx.body={
+                "code":2,   //1 表示成功 ，2表示失败
+                "err":'修改失败，请刷新页面，若依然有错请联系后台'   //错误信息
+            }
     }
     else 
         ctx.body={
