@@ -258,7 +258,7 @@ router.get('/getorders_recover', async (ctx) => {
 //2.3 接受订单
 router.post('/accept_order', async (ctx) => {
     var data=ctx.request.body;
-    if (data.order_id && data.tel)        
+    if (data.order_id && data.name && data.tel)        
         ctx.body={
             code:1
         }
