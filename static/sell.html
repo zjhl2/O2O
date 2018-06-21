@@ -123,7 +123,7 @@
                                 var newtmp = tmp.clone();
                                 newtmp.attr('id', 'addrson' + i);
                                 $("#father").append(newtmp);
-                                $(`#${"addrson" + i}`).text(`${data.addresses[i].address}`);
+                                $(`#${"addrson" + i}`).text(`${data.addresses[i].address+' '+data.addresses[i].name+' '+data.addresses[i].tel}`);
                                 $(`#${"addrson" + i}`).val(data.addresses[i].add_id);
                             }
                             tmp.remove();

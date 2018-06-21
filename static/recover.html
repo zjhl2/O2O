@@ -53,7 +53,7 @@
             </div>
         </nav>
 
-        <div class="wrapper">
+        <div class="wrapper" id="father">
             <div class="container">
                 <div class="row">
                     <div class="pd-re title-re">
@@ -61,11 +61,11 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container pd" id="template">
                 <div class="re-item re-item-pd">
                     <div class="row">
                         <div class="col-xs-7 col-xs-offset-1">
-                            <p class="re-time">预约时间：2018-05-30 12:30</p>
+                            <p class="re-time">预约时间：<span id="date">2018-05-30 12:30</span></p>
                         </div>
                         <div class="col-xs-4">
                             <p class="re-wait">等待回收</p>
@@ -74,14 +74,24 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-offset-1">
+                                <p class="re-infor">订单编号：<span id="order_id"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-offset-1">
                                 <p class="re-infor">回收物详细信息：</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-8 col-xs-offset-2">
                                 <p class="re-detail">
-                                    废纸：废书两本；<br>
-                                    电子废品：废旧电池两对；
+                                    <span>
+                                        回收物类型：<span id="type"></span>
+                                    </span>
+                                    <br>
+                                    <span>
+                                        详情：<span id="detail"></span>
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -92,97 +102,14 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-8 col-xs-offset-2">
-                                <p class="re-detail">
+                                <p class="re-detail" id="addr">
                                     浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <button class="button button-plain button-tiny button-box button-border-thin button-mybtn" 
-                        style="width: 70%;margin-left: 15%;">
-                        <p style="font-size: 14px">接受订单</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container pd">
-                <div class="re-item re-item-pd">
-                    <div class="row">
-                        <div class="col-xs-7 col-xs-offset-1">
-                            <p class="re-time">预约时间：2018-05-30 12:30</p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p class="re-wait">等待回收</p>
-                        </div>
-                    </div>
-                    <div class="container">
                         <div class="row">
                             <div class="col-xs-offset-1">
-                                <p class="re-infor">回收物详细信息：</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <p class="re-detail">
-                                    ：废书两本；<br>
-                                    电子废品：废旧电池两对；
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-offset-1">
-                                <p class="re-infor">地址：</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <p class="re-detail">
-                                    浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <button class="button button-plain button-tiny button-box button-border-thin button-mybtn" 
-                        style="width: 70%;margin-left: 15%;">
-                        <p style="font-size: 14px">接受订单</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container pd">
-                <div class="re-item re-item-pd">
-                    <div class="row">
-                        <div class="col-xs-7 col-xs-offset-1">
-                            <p class="re-time">预约时间：2018-05-30 12:30</p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p class="re-wait">等待回收</p>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-offset-1">
-                                <p class="re-infor">回收物详细信息：</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <p class="re-detail">
-                                    ：废书两本；<br>
-                                    电子废品：废旧电池两对；
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-offset-1">
-                                <p class="re-infor">地址：</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <p class="re-detail">
-                                    浙江省 杭州市 江干区 白杨街道 杭州电子科技大学生活区 12楼
-                                </p>
+                                <p class="re-infor">联系方式：<span id="tel">15968812297</span>&nbsp; <span id="name">郑先生</span></p>
                             </div>
                         </div>
                     </div>
@@ -195,5 +122,26 @@
             </div>
         </div>
     </body>
+    <script>
+        $.get('getorders_recover',function(data){
+            var n = data.orders.length;
+            var tmp = $('#template');
+            for(var i=0;i<n;i++){
+                var newtmp = tmp.clone();
+                newtmp.attr('id','orderson'+data.orders[i].order_id);
+                $("#father").append(newtmp);
+
+                $(`#orderson${data.orders[i].order_id} #date`).text(data.orders[i].date);
+                $(`#orderson${data.orders[i].order_id} #order_id`).text(data.orders[i].order_id);
+                $(`#orderson${data.orders[i].order_id} #type`).text(data.orders[i].type);
+                $(`#orderson${data.orders[i].order_id} #detail`).text(data.orders[i].detail);
+                $(`#orderson${data.orders[i].order_id} #addr`).text(data.orders[i].address);
+                $(`#orderson${data.orders[i].order_id} #name`).text(data.orders[i].name);
+                $(`#orderson${data.orders[i].order_id} #tel`).text(data.orders[i].tel);
+            }
+            tmp.remove();
+        });
+
+    </script>
 
 </html>
